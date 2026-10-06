@@ -18,15 +18,18 @@ int findAccount(const vector<BankAccount>& accounts,
 int main() {
     vector<BankAccount> accounts; 
     int choice;
+    
     do {
-        cout << "\n ====== Managemtn system of Bank ======\n";
+        cout << "\n ====== Bank Management System ======\n";
         cout << "1. Create Account\n";
         cout << "2. View Accounts\n";
-        cout << "3. Deposit the Money\n";
-        cout << "4. Withdraw the Money\n";
+        cout << "3. Deposit Money\n";
+        cout << "4. Withdraw Money\n";
         cout << "5. Update Account Holder Name\n";
         cout << "6. Compare Accounts\n";
-        cout << "7. Exit\n";
+        cout << "7. Test Copy Constructor\n";
+        cout << "8. Test Assignment Operator\n";
+        cout << "9. Exit\n";
         cout << "Enter choice: ";
 
         while (!(cin >> choice)) {
@@ -36,12 +39,14 @@ int main() {
         }
 
         cin.ignore();
+
         switch (choice) {
             case 1: {
                 accounts.push_back(BankAccount::createAccountFromInput());
-                cout << "Account created suessfuly.\n";
+                cout << "Account created successfully.\n";
                 break;
             }
+
             case 2: {
                 if (accounts.empty()) {
                     cout << "No accounts found.\n";
@@ -53,6 +58,7 @@ int main() {
                 }
                 break;
             }
+
             case 3: {
                 string accNum;
                 double amount;
@@ -61,21 +67,27 @@ int main() {
                 getline(cin, accNum);
 
                 int index = findAccount(accounts, accNum);
+
                 if(index == -1) {
                     cout << "Account not found.\n";
                     break; 
                 }
+
                 cout << "Enter Deposit Amount: ";
+
                 while (!(cin >> amount)|| amount <=0) {
-                    cout << "Invalid amount.Try again: ";
+                    cout << "Invalid amount. Try again: ";
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 }
                 cin.ignore();
+
                 accounts[index] += amount; 
+
                 cout << "Deposit sucessful.\n";
                 break;
             }
+
             case 4: {
                 string accNum;
                 double amount;
@@ -84,21 +96,26 @@ int main() {
                 getline(cin, accNum);
 
                 int index = findAccount(accounts, accNum);
+
                 if (index == -1) {
                     cout << "Account not found.\n";
                     break;
                 }
 
                 cout << "Enter Withdrawal Amount: ";
+
                 while (!(cin>> amount) || amount <= 0) {
-                    cout << "Invaild amount. Try again: ";
+                    cout << "Invalid amount. Try again: ";
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(),'\n');
                 }
 
                 cin.ignore();
+
                 double oldBalance = accounts[index].getBalance();
+
                 accounts[index] -= amount;
+
                 if (accounts[index].getBalance() < oldBalance) {
                     cout << "Withdrawal successful.\n";
                 }
@@ -121,10 +138,12 @@ int main() {
                     cout << "Acount not found.\n";
                     break;
                 }
+
                 cout <<"Enter New Account Holder Name: ";
                 getline(cin, newName);
 
                 accounts[index].setAccountHolderName(newName);
+
                 cout << "Name updated successfully.\n";
                 break;
             }
@@ -153,14 +172,40 @@ int main() {
                 break;
             }
 
-            case 7: 
+            case 7:{
+                if (accounts.empty()) {
+                    cout << "No accounts available.\n";
+                    break;
+                }
+
+                BankAccount copiedAccount(accounts[0]);
+
+                cout << "\nCopied Constructor Test:\n";
+                BankAccount::printAccount(copiedAccount);
+                break;
+            }
+            case 8: {
+                if (accounts.empty()) {
+                    cout << "No accounts available.\n";
+                    break;
+                }
+                BankAccount assignedAccount;
+                assignedAccount = accounts[0];
+                cout << "\nAssigned Operator Test:\n";
+                BankAccount::printAccount(assignedAccount);
+                break;
+            }
+
+            case 9: {
                 cout << "Have a Good Day!\n";
                 break;
+            }
+            
             default:
                 cout << "Invaild menu choice.\n";    
         }
 
-    } while (choice != 7);
+    } while (choice != 9);
 
     return 0;
 }
