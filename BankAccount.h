@@ -44,7 +44,7 @@ public:
 
     // Static Utility Functions
     static void printAccount(const BankAccount& account); 
-    static BankAccount createAccountFormInput();
+    static BankAccount createAccountFromInput();
 };
 
 
