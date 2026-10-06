@@ -83,7 +83,7 @@ void BankAccount::printAccount(const BankAccount& account) {
     cout << " Account Holder Name: " << account.accountHolderName << endl;
     cout << " Balance: $" << account.balance << endl;
 }
-BankAccount& BankAccount::createAccountFromInput() {
+BankAccount BankAccount::createAccountFromInput() {
     string accNum;
     string holderName;
     double bal;
@@ -95,9 +95,5 @@ BankAccount& BankAccount::createAccountFromInput() {
     cout << "Enter Initial Balance: ";
     cin >> bal;
 
-    accountNumber = accNum;
-    accountHolderName = holderName;
-    balance = bal;
-
-    return *this; 
+    return BankAccount(accNum, holderName, bal);
 }
