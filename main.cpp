@@ -25,7 +25,8 @@ int main() {
         cout << "3. Deposit the Money\n";
         cout << "4. Withdraw the Money\n";
         cout << "5. Update Account Holder Name\n";
-        cout << "6. Exit\n";
+        cout << "6. Compare Accounts\n";
+        cout << "7. Exit\n";
         cout << "Enter choice: ";
 
         while (!(cin >> choice)) {
@@ -37,25 +38,7 @@ int main() {
         cin.ignore();
         switch (choice) {
             case 1: {
-                string accNum;
-                string holderName;
-                double Balance;
-
-                cout << "Enter Account Number: ";
-                getline(cin, accNum);
-
-                cout << "Enter Account Holer Name: ";
-                getline(cin, holderName);
-
-                cout << "Enter the Balance: ";
-
-                while (!(cin >> Balance) || Balance < 0) {
-                    cout << "Invalid amount. Try again: ";
-                    cin.clear();
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                }
-                cin.ignore();
-                accounts.push_back(BankAccount(accNum, holderName, Balance));
+                accounts.push_back(BankAccount::createAccountFromInput());
                 cout << "Account created suessfuly.\n";
                 break;
             }
@@ -65,12 +48,7 @@ int main() {
                 }
                 else {
                     for (const auto& account : accounts) {
-                        cout << "\nAccount Number: " <<
-                        account.getAccountNumber() << endl;
-                        cout << "Account Holder: " <<
-                        account.getAccountHolderName() << endl;
-                        cout << "Balance: $" <<
-                        account.getBalance() << endl; 
+                        BankAccount::printAccount(account);
                     }
                 }
                 break;
@@ -94,7 +72,7 @@ int main() {
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 }
                 cin.ignore();
-                accounts[index].deposit(amount);
+                accounts[index] += amount; 
                 cout << "Deposit sucessful.\n";
                 break;
             }
@@ -119,12 +97,13 @@ int main() {
                 }
 
                 cin.ignore();
-
-                if (accounts[index].withdraw(amount)) {
+                double oldBalance = accounts[index].getBalance();
+                accounts[index] -= amount;
+                if (accounts[index].getBalance() < oldBalance) {
                     cout << "Withdrawal successful.\n";
                 }
                 else {
-                    cout << "Insuffiient funds.\n";
+                    cout << "Insufficient funds.\n";
                 }
                 break;
             }
@@ -150,14 +129,38 @@ int main() {
                 break;
             }
 
-            case 6: 
+            case 6: {
+                if (accounts.size() < 2) {
+                    cout << "Need at least two account.\n";
+                    break;
+                }
+                if (accounts[0] == accounts[1]) {
+                    cout << "The accounts have the same accoount number.\n";
+                }
+                else {
+                    cout << "The accounts have different account numbers.\n";
+                }
+
+                if (accounts[0] > accounts[1]) {
+                    cout << "Account  1 has a greater balance.\n";
+                }
+                else if (accounts[0] < accounts[1]) {
+                    cout << "Account 2 has a greater balance.\n";
+                }
+                else {
+                    cout << "Both accounts have the same balance.\n";
+                }
+                break;
+            }
+
+            case 7: 
                 cout << "Have a Good Day!\n";
                 break;
             default:
-                cout << "Invaild menu choice.\n";
+                cout << "Invaild menu choice.\n";    
         }
 
-    } while (choice != 6);
+    } while (choice != 7);
 
     return 0;
 }
