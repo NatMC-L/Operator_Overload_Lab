@@ -6,6 +6,7 @@ using namespace std;
 
 int findAccount(const vector<BankAccount>& accounts, 
     const string& accountNumber) {
+
     for (int i = 0; i < accounts.size(); i++) {
         if (accounts[i].getAccountNumber() == accountNumber) {
             return i; 
@@ -38,15 +39,16 @@ int main() {
             cin.ignore(numeric_limits<streamsize>::max(),'\n');
         }
 
-        cin.ignore();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         switch (choice) {
+            // create a account 
             case 1: {
                 accounts.push_back(BankAccount::createAccountFromInput());
                 cout << "Account created successfully.\n";
                 break;
             }
-
+            // view accounts
             case 2: {
                 if (accounts.empty()) {
                     cout << "No accounts found.\n";
@@ -58,7 +60,7 @@ int main() {
                 }
                 break;
             }
-
+            // deposit 
             case 3: {
                 string accNum;
                 double amount;
@@ -80,14 +82,15 @@ int main() {
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 }
-                cin.ignore();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+                // perform deposit operation 
                 accounts[index] += amount; 
 
                 cout << "Deposit sucessful.\n";
                 break;
             }
-
+            // withdrawal
             case 4: {
                 string accNum;
                 double amount;
@@ -110,10 +113,11 @@ int main() {
                     cin.ignore(numeric_limits<streamsize>::max(),'\n');
                 }
 
-                cin.ignore();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
                 double oldBalance = accounts[index].getBalance();
 
+                // perform withdrawal operation 
                 accounts[index] -= amount;
 
                 if (accounts[index].getBalance() < oldBalance) {
@@ -124,7 +128,7 @@ int main() {
                 }
                 break;
             }
-
+            // update account holder name
             case 5: {
                 string accNum;
                 string newName;
@@ -147,7 +151,7 @@ int main() {
                 cout << "Name updated successfully.\n";
                 break;
             }
-
+            // compare accounts 
             case 6: {
                 if (accounts.size() < 2) {
                     cout << "Need at least two account.\n";
@@ -161,7 +165,7 @@ int main() {
                 }
 
                 if (accounts[0] > accounts[1]) {
-                    cout << "Account  1 has a greater balance.\n";
+                    cout << "Account 1 has a greater balance.\n";
                 }
                 else if (accounts[0] < accounts[1]) {
                     cout << "Account 2 has a greater balance.\n";
@@ -172,30 +176,37 @@ int main() {
                 break;
             }
 
+            // copy constructor 
             case 7:{
                 if (accounts.empty()) {
                     cout << "No accounts available.\n";
                     break;
                 }
-
+                // demonstrates copy constructor 
                 BankAccount copiedAccount(accounts[0]);
 
                 cout << "\nCopied Constructor Test:\n";
                 BankAccount::printAccount(copiedAccount);
                 break;
             }
+
+            // copy assignment 
             case 8: {
                 if (accounts.empty()) {
                     cout << "No accounts available.\n";
                     break;
                 }
                 BankAccount assignedAccount;
+
+                // demonstrates copy assignment 
                 assignedAccount = accounts[0];
+
                 cout << "\nAssigned Operator Test:\n";
                 BankAccount::printAccount(assignedAccount);
                 break;
             }
 
+            // exit program 
             case 9: {
                 cout << "Have a Good Day!\n";
                 break;
